@@ -1,0 +1,263 @@
+package com.example.lvm;
+
+import com.example.lvm.HelloApplication;
+import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+
+public class HelloController {
+
+    @FXML
+    public Button exit;
+    public Button send;
+
+    ArrayList<String> MAT;
+
+    @FXML
+    public Spinner<Integer> spinner;
+    public ListView<String> listView;
+    public Button choose;
+    public Label valueMedicine;
+    public Button allValue;
+    public Label allLabelValue;
+    public Button secondExit;
+    public Button goToPay;
+    public Button secondSend;
+    public Button thirdExit;
+    public int i = 0;
+    public String sum;
+
+    @FXML
+    public ListView<String> listOfMedicines;
+    public Button thirdEXIT;
+    public Button withdrawMedicine;
+    public ArrayList<String> listWithMedicines;
+
+    @FXML
+    private void ZNOVUEXIT(ActionEvent event) {
+        HelloApplication.withdraw = false;
+        Stage stage = (Stage) thirdEXIT.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    private void withdrawMedicineFromList(ActionEvent actionEvent){
+        HelloApplication.withdraw = false;
+        listView = new ListView<>();
+        String selectedItem = listOfMedicines.getSelectionModel().getSelectedItem();
+        listWithMedicines.remove(selectedItem);
+        listOfMedicines.getItems().clear();
+        for (String word : listWithMedicines){
+            listOfMedicines.getItems().add(word);
+        }
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Повідомлення");
+        alert.setHeaderText(null);
+        alert.setContentText("Препарат було списано");
+        alert.showAndWait();
+
+
+    }
+
+    @FXML
+    public void initialize() {
+        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1);
+        if (HelloApplication.sale) {
+            spinner.setValueFactory(valueFactory);
+            spinner.getValueFactory().setValue(1);
+
+            if (HelloApplication.oneTime == 0) {
+                MAT = new ArrayList<>();
+                MAT.add("Парацетамол - 15 грн.");
+                MAT.add("Аспірин - 10 грн.");
+                MAT.add("Нурофен - 25 грн.");
+                MAT.add("Діазепам - 30 грн.");
+                MAT.add("Левотироксин - 50 грн.");
+                MAT.add("Амоксицилін - 40 грн.");
+                MAT.add("Ранітідин - 20 грн.");
+                MAT.add("Атенолол - 35 грн.");
+                MAT.add("Симвастатин - 70 грн.");
+                MAT.add("Еноксапарин - 300 грн.");
+                HelloApplication.oneTime++;
+            }
+
+            for (String word : MAT){
+                listView.getItems().add(word);
+            }
+
+            listView.setCellFactory(lv -> new ListCell<String>() {
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setText(null);
+                    } else {
+                        setText(item);
+                        setAlignment(Pos.CENTER);
+                    }
+                }
+            });
+        }
+        else if (HelloApplication.withdraw){
+            if (HelloApplication.twoTime == 0) {
+                listWithMedicines = new ArrayList<>();
+                listWithMedicines.add("Парацетамол - до 12/2024");
+                listWithMedicines.add("Аспірин - до 12/2024");
+                listWithMedicines.add("Нурофен - до 06/2022");
+                listWithMedicines.add("Левотироксин - до 08/2024");
+                listWithMedicines.add("Амоксицилін - до 02/2024");
+                listWithMedicines.add("Ранітідин - до 05/2023");
+                listWithMedicines.add("Атенолол - до 11/2025");
+                listWithMedicines.add("Парацетамол - до 12/2024");
+                listWithMedicines.add("Еноксапарин - до 09/2024");
+                listWithMedicines.add("Діазепам - до 04/2025");
+                HelloApplication.twoTime++;
+            }
+
+            if (HelloApplication.withdraw) {
+                for (String word : listWithMedicines) {
+                    listOfMedicines.getItems().add(word);
+                }
+            }
+        }
+        if (HelloApplication.BEEEEE){
+            HelloApplication.BEEEEE = false;
+        }
+    }
+
+    @FXML
+    private void handleListView (ActionEvent event){
+        String selectedItem = listView.getSelectionModel().getSelectedItem();
+        String digitsOnly = selectedItem.replaceAll("[^0-9]", "");
+        sum = String.valueOf(Integer.parseInt(digitsOnly) * spinner.getValue());
+        valueMedicine.setText(sum + " грн.");
+    }
+
+    @FXML
+    private void handleAllValue (ActionEvent event){
+        i += Integer.parseInt(sum);
+        allLabelValue.setText(String.valueOf(i) + " грн.");
+    }
+
+    @FXML
+    public TextField FIRST;
+    public TextField SECOND_HAND;
+    public TextField THIRD;
+    public TextField FOURTH;
+    public TextField FIVI;
+    public TextField SIXI;
+    public TextField SIVENTI;
+    public TextField EIGHTA;
+
+    public String firstiki = "45";
+    public String two = "45";
+    public String three = "45";
+    public String four = "45";
+    public String five = "45";
+    public String six = "45";
+    public String seven = "45";
+    public String eight = "45";
+
+    public String STRAKA;
+    public ArrayList<String> MY_ORDARS = new ArrayList<>();
+
+    @FXML
+    private void handleSendButton(ActionEvent event) {
+        firstiki = FIRST.getText();
+        two = SECOND_HAND.getText();
+        three = THIRD.getText();
+        four = FOURTH.getText();
+        five = FIVI.getText();
+        six = SIXI.getText();
+        seven = SIVENTI.getText();
+        eight = EIGHTA.getText();
+        STRAKA = firstiki + " " + two + " " + three + " " + four + " " + five + " "  + six + " " + seven + " " + eight;
+        HelloApplication.etoNada.add(STRAKA);
+
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Повідомлення");
+        alert.setHeaderText(null);
+        alert.setContentText("Ваш запит був успішно надісланий\nНевдзовзі з вами зв'яжеться оператор");
+        alert.showAndWait();
+        Stage stage = (Stage) send.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    private void SEND(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Повідомлення");
+        alert.setHeaderText(null);
+        alert.setContentText("Ваш запит був успішно надісланий\nНевдзовзі з вами зв'яжеться оператор");
+        alert.showAndWait();
+        Stage stage = (Stage) secondSend.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    private void handleExitButton(ActionEvent event) {
+        Stage stage = (Stage) send.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    private void handleExitSecondButton(ActionEvent event) {
+        Stage stage = (Stage) secondExit.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    private void handleEXIT(ActionEvent event) {
+        Stage stage = (Stage) thirdExit.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    private void pay(ActionEvent event) throws IOException {
+        HelloApplication.sale = false;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("payroll.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+
+        // Отримання Stage поточної сцени
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // Встановлення нової сцени на Stage і відображення його
+        window.setScene(scene);
+        window.show();
+    }
+
+
+    @FXML
+    public Button skasfas;
+    public ListView<String> YUHUUUUU;
+
+    public Button SAFDPK;
+
+    public void qw(ActionEvent actionEvent){
+        for (String word : HelloApplication.etoNada){
+            YUHUUUUU.getItems().add(word);
+        }
+    }
+
+    @FXML
+    private void AAAAAAA(ActionEvent event) {
+        Stage stage = (Stage) skasfas.getScene().getWindow();
+        stage.close();
+    }
+}
